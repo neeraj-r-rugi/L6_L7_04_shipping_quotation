@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/media/neeraj-r-rugi/NEERAJ-DRIVE/PES/5th-sem-cse/SE/mini_lab/L6_L7_04_shipping_quotation/Lab 6/.venv/bin/python3" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from coverage.cmdline import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
