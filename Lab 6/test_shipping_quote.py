@@ -88,3 +88,25 @@ def test_fragile_hazmat_parcel_stops_shipment_cost():
 
 def test_stable_pressure_logs():
     assert monitor_container_pressures([[14.0, 13.5, 14.0]]) == "STABLE"
+
+
+def test_more_than_three_rejected_parcels_are_flagged_for_review():
+    shipments = [
+        {"manifest_approved": True, "mode": "unknown"},
+        {"manifest_approved": True, "mode": "unknown"},
+        {"manifest_approved": True, "mode": "unknown"},
+        {"manifest_approved": True, "mode": "unknown"},
+    ]
+
+    assert process_shipments(shipments, 20.0) == {
+        "total_quote": 0.0,
+        "status": "FLAGGED_REVIEW",
+    }
+
+
+def test_no_pressure_logs_returns_no_data():
+    assert monitor_container_pressures([]) == "NO_DATA"
+
+
+def test_two_consecutive_low_pressure_readings_detect_a_leak():
+    assert monitor_container_pressures([[14.0, 13.9, 13.8]]) == "LEAK_DETECTED"
